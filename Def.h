@@ -14,8 +14,8 @@
 #define oi_symmetry_decrypt2_Symbol "?oi_symmetry_decrypt2@@YAHPBEH0PAEPAH@Z"
 
 
-typedef void (__cdecl* oi_symmetry_encrypt2_t)(unsigned char const *, int, unsigned char const *, unsigned char *, int *);
-typedef int (__cdecl* oi_symmetry_decrypt2_t)(unsigned char const *, int, unsigned char const *, unsigned char *, int *);
+typedef void (__cdecl* oi_symmetry_encrypt2_t)(const char *pInBuf, int nInBufLen, const char *pKey, char *pOutBuf, size_t *pOutBufLen);
+typedef int (__cdecl* oi_symmetry_decrypt2_t)(const char *pInBuf, int nInBufLen, const char *pKey, char *pOutBuf, size_t *pOutBufLen);
 
 extern oi_symmetry_encrypt2_t oi_symmetry_encrypt2;
 extern oi_symmetry_decrypt2_t oi_symmetry_decrypt2;

@@ -30,11 +30,13 @@ BOOL UnHook(LPVOID pTarget) {
 }
 
 void __cdecl my_oi_symmetry_encrypt2(const char *pInBuf, int nInBufLen, const char *pKey, char *pOutBuf, size_t *pOutBufLen){
-
+    OutputDebugString(pInBuf);
+    oi_symmetry_encrypt2(pInBuf, nInBufLen, pKey, pOutBuf, pOutBufLen);
 }
 
 void __cdecl my_oi_symmetry_decrypt2(const char *pInBuf, int nInBufLen, const char *pKey, char *pOutBuf, size_t *pOutBufLen){
-
+    OutputDebugString(pOutBuf);
+    oi_symmetry_decrypt2(pInBuf, nInBufLen, pKey, pOutBuf, pOutBufLen);
 }
 
 BOOL APIENTRY DllMain(HMODULE hModule,
@@ -43,12 +45,12 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 ) {
     switch (ul_reason_for_call) {
         case DLL_PROCESS_ATTACH: {
-            OutputDebugStringA("Hook Init");
+            OutputDebugString("Hook Init");
             MH_Initialize();
             InitHookPtr();
             if (SetHook((LPVOID) oi_symmetry_encrypt2_Address, (LPVOID) &my_oi_symmetry_encrypt2, &oi_symmetry_encrypt2) &&
                 SetHook((LPVOID) oi_symmetry_decrypt2_Address, (LPVOID) &my_oi_symmetry_decrypt2, &oi_symmetry_decrypt2)) {
-                OutputDebugStringA("SetHook OK!");
+                OutputDebugString("SetHook OK!");
             }
         }
             break;
@@ -59,7 +61,7 @@ BOOL APIENTRY DllMain(HMODULE hModule,
         case DLL_PROCESS_DETACH: {
             if (UnHook((LPVOID) oi_symmetry_encrypt2_Address) &&
                 UnHook((LPVOID) oi_symmetry_decrypt2_Address)) {
-                OutputDebugStringA("UnHook OK!");
+                OutputDebugString("UnHook OK!");
                 MH_Uninitialize();
             }
         }
