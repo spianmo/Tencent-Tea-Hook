@@ -1,10 +1,8 @@
 #include <windows.h>
 #include <iostream>
-
 #include <MinHook.h>
-#include "Def.h"
 
-#pragma comment(lib, "libMinHook-x86-v141-mdd.lib")
+#include "Def.h"
 
 
 using namespace std;
