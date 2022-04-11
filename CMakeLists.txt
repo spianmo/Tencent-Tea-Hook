@@ -8,7 +8,7 @@ add_library(MinHook STATIC IMPORTED)
 include_directories(MinHook ${VENDOR}/minhook/include)
 set_target_properties(MinHook PROPERTIES IMPORTED_LOCATION ${VENDOR}/minhook/lib)
 
-add_library(TeaHookDll SHARED DllMain.cpp Def.cpp)
+add_library(TeaHookDll SHARED DllMain.cpp Def.cpp Def.h)
 
 target_link_libraries(TeaHookDll
         MinHook)
