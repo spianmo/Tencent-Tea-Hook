@@ -1,6 +1,5 @@
 #include <windows.h>
 #include <iostream>
-#include <MinHook.h>
 #include "Common.h"
 
 #include "Def.h"
@@ -8,34 +7,17 @@
 
 using namespace std;
 
-BOOL SetHook(LPVOID pTarget, LPVOID pDest, LPVOID pOld) {
-    MH_STATUS ret = MH_OK;
-
-    ret = MH_CreateHook(pTarget, pDest, reinterpret_cast<LPVOID *>(pOld));
-    if (ret != MH_OK) {
-        return FALSE;
-    }
-
-    if ((ret = MH_EnableHook((LPVOID) pTarget)) != MH_OK) {
-        return FALSE;
-    }
-
-    return TRUE;
-}
-
-BOOL UnHook(LPVOID pTarget) {
-    if (MH_DisableHook(pTarget) != MH_OK)
-        return FALSE;
-
-    return TRUE;
-}
-
 void __cdecl my_oi_symmetry_encrypt2(const BYTE *pInBuf, int nInBufLen, const BYTE *pKey, BYTE *pOutBuf, int *pOutBufLen){
     oi_symmetry_encrypt2(pInBuf, nInBufLen, pKey, pOutBuf, pOutBufLen);
     OutputDebugString("my_oi_symmetry_encrypt2");
     //OutputDebugString(binaryToHex(pKey, 16).c_str());
     //OutputDebugString(*pOutBufLen);
     OutputDebugString(binaryToHex(pInBuf, nInBufLen).c_str());
+    uint32_t encode_buf_len,decode_buf_len;
+    unsigned char * encode_buf = tea_encode(pKey, pInBuf, nInBufLen, &encode_buf_len);
+    unsigned char * decode_buf = tea_decode(pKey,encode_buf,encode_buf_len,&decode_buf_len);
+    OutputDebugString(binaryToHex(encode_buf, encode_buf_len).c_str());
+    OutputDebugString(binaryToHex(decode_buf, decode_buf_len).c_str());
 }
 
 void __cdecl my_oi_symmetry_decrypt2(const BYTE *pInBuf, int nInBufLen, const BYTE *pKey, BYTE *pOutBuf, int *pOutBufLen){

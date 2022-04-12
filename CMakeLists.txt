@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(TeaHookDll)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(VENDOR ${CMAKE_CURRENT_SOURCE_DIR}/vendor)
 
 set(MINHOOK_SOURCES
@@ -16,7 +16,7 @@ include_directories(minhook/include minhook/src minhook/src/hde)
 
 add_library(minhook ${MINHOOK_SOURCES})
 
-add_library(TeaHookDll SHARED DllMain.cpp Def.cpp Def.h Common.cpp Common.h)
+add_library(TeaHookDll SHARED DllMain.cpp Def.cpp Def.h Common.cpp Common.h tea.cpp tea.h)
 
 target_link_libraries(TeaHookDll
         minhook)

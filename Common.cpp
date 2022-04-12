@@ -4,6 +4,28 @@
 
 #include "Common.h"
 
+BOOL SetHook(LPVOID pTarget, LPVOID pDest, LPVOID pOld) {
+    MH_STATUS ret = MH_OK;
+
+    ret = MH_CreateHook(pTarget, pDest, reinterpret_cast<LPVOID *>(pOld));
+    if (ret != MH_OK) {
+        return FALSE;
+    }
+
+    if ((ret = MH_EnableHook((LPVOID) pTarget)) != MH_OK) {
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+BOOL UnHook(LPVOID pTarget) {
+    if (MH_DisableHook(pTarget) != MH_OK)
+        return FALSE;
+
+    return TRUE;
+}
+
 string GBKToUTF8(string &strGBK) {
     string strOutUTF8 = "";
     WCHAR *str1;
@@ -47,10 +69,18 @@ string binaryToHex(const char *bytes, int length) {
     return ret;
 }
 
+string binaryToHex(const unsigned char *bytes, unsigned int length) {
+    std::stringstream ss;
+    for (int i = 0; i < length; i++) {
+        ss << std::uppercase << std::hex << std::setw(2) << std::setfill('0') << (0xff & (unsigned char) bytes[i]);
+    }
+    return ss.str();
+}
+
 string binaryToHex(const unsigned char *bytes, int length) {
     std::stringstream ss;
     for (int i = 0; i < length; i++) {
-        ss << std::hex << std::setw(2) << std::setfill('0') << (0xff & (unsigned char) bytes[i]);
+        ss << std::uppercase << std::hex << std::setw(2) << std::setfill('0') << (0xff & (unsigned char) bytes[i]);
     }
     return ss.str();
 }
