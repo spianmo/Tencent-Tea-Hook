@@ -19,6 +19,7 @@ using namespace std;
 
 string GBKToUTF8(string& strGBK);
 string UTF8ToGBK(string& strUtf8);
+string binaryToHex(const unsigned char *bytes, int length);
 string binaryToHex(const char* bytes,int length);
 string binaryToHex(const string& binaryStr);
 string hex2intToString(const std::string& hexStr);

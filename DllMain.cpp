@@ -30,15 +30,15 @@ BOOL UnHook(LPVOID pTarget) {
     return TRUE;
 }
 
-void __cdecl my_oi_symmetry_encrypt2(const char *pInBuf, int nInBufLen, const char *pKey, char *pOutBuf, int *pOutBufLen){
+void __cdecl my_oi_symmetry_encrypt2(const BYTE *pInBuf, int nInBufLen, const BYTE *pKey, BYTE *pOutBuf, int *pOutBufLen){
     oi_symmetry_encrypt2(pInBuf, nInBufLen, pKey, pOutBuf, pOutBufLen);
     OutputDebugString("my_oi_symmetry_encrypt2");
     //OutputDebugString(binaryToHex(pKey, 16).c_str());
-    OutputDebugString(*pOutBufLen);
-    //OutputDebugString(binaryToHex(pInBuf, nInBufLen).c_str());
+    //OutputDebugString(*pOutBufLen);
+    OutputDebugString(binaryToHex(pInBuf, nInBufLen).c_str());
 }
 
-void __cdecl my_oi_symmetry_decrypt2(const char *pInBuf, int nInBufLen, const char *pKey, char *pOutBuf, int *pOutBufLen){
+void __cdecl my_oi_symmetry_decrypt2(const BYTE *pInBuf, int nInBufLen, const BYTE *pKey, BYTE *pOutBuf, int *pOutBufLen){
     //OutputDebugString("my_oi_symmetry_decrypt2");
     //OutputDebugString(binaryToHex(pKey, 16).c_str());
     //OutputDebugString(binaryToHex(pOutBuf, nInBufLen).c_str());
