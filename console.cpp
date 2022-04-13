@@ -16,7 +16,11 @@ enum PacketProto {
     oi_symmetry_encrypt2, oi_symmetry_decrypt2
 };
 
-std::map<std::string, PacketProto> packetProtoMap;
+std::map<std::string, PacketProto> packetProtoMap = {
+        {"oi_symmetry_encrypt2", oi_symmetry_encrypt2},
+        {"oi_symmetry_decrypt2", oi_symmetry_decrypt2}
+};
+
 
 class BasePacket {
 public:
