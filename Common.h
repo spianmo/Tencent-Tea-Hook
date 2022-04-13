@@ -5,7 +5,6 @@
 #ifndef TEAHOOKDLL_COMMON_H
 #define TEAHOOKDLL_COMMON_H
 
-
 #include <Windows.h>
 #include <string>
 #include <tlhelp32.h>
@@ -14,6 +13,8 @@
 #include <iomanip>
 #include <MinHook.h>
 #include "tea.h"
+
+#define HOST "localhost:8787"
 
 using std::wstring;
 using std::string;

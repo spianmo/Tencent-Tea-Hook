@@ -16,7 +16,11 @@ include_directories(minhook/include minhook/src minhook/src/hde)
 
 add_library(minhook ${MINHOOK_SOURCES})
 
-add_library(TeaHookDll SHARED DllMain.cpp Def.cpp Def.h Common.cpp Common.h tea.cpp tea.h)
+add_library(TeaHookDll SHARED DllMain.cpp httplib.h Def.cpp Def.h Common.cpp Common.h tea.cpp tea.h)
+
+add_executable(TeaHookServer console.cpp httplib.h)
+
+add_executable(TeaHookClient client.cpp httplib.h)
 
 target_link_libraries(TeaHookDll
         minhook)
