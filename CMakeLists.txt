@@ -4,6 +4,9 @@ project(TeaHookDll)
 set(CMAKE_CXX_STANDARD 17)
 set(VENDOR ${CMAKE_CURRENT_SOURCE_DIR}/vendor)
 
+add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
+add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+
 set(MINHOOK_SOURCES
         minhook/src/buffer.c
         minhook/src/hook.c

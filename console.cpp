@@ -63,6 +63,7 @@ std::string log(const Request &req, const Response &res) {
 }
 
 int main(int argc, char * argv[]) {
+    system("chcp 65001");
     Server svr;
 
     if (!svr.is_valid()) {
