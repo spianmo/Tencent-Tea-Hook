@@ -8,7 +8,6 @@
 #include <Windows.h>
 #include <string>
 #include <tlhelp32.h>
-#include <atlstr.h>
 #include <sstream>
 #include <iomanip>
 #include <MinHook.h>

@@ -25,13 +25,7 @@ __cdecl my_oi_symmetry_encrypt2(const BYTE *pInBuf, int nInBufLen, const BYTE *p
     ss << binaryToHex(pOutBuf, *pOutBufLen) << endl;
     cli.Post("/obtain", ss.str(), "text/plain");
 
-    //OutputDebugString("my_oi_symmetry_encrypt2");
-    //明文数据
-    //OutputDebugString(binaryToHex(pInBuf, nInBufLen).c_str());
-    //KEY
-    //OutputDebugString(binaryToHex(pKey, 16).c_str());
-    //密文数据
-    //OutputDebugString(binaryToHex(pOutBuf, *pOutBufLen).c_str());
+    OutputDebugString(ss.str().c_str());
     //tea test
     //uint32_t encode_buf_len,decode_buf_len;
     //unsigned char * encode_buf = tea_encode(pKey, pInBuf, nInBufLen, &encode_buf_len);
@@ -54,16 +48,11 @@ __cdecl my_oi_symmetry_decrypt2(const BYTE *pInBuf, int nInBufLen, const BYTE *p
     ss << binaryToHex(pInBuf, nInBufLen) << endl;
     cli.Post("/obtain", ss.str(), "text/plain");
 
-//    OutputDebugString("my_oi_symmetry_decrypt2");
-//    //密文数据
-//    OutputDebugString(binaryToHex(pInBuf, nInBufLen).c_str());
-//    //KEY
-//    OutputDebugString(binaryToHex(pKey, 16).c_str());
-//    //明文数据
-//    OutputDebugString(binaryToHex(pOutBuf, nInBufLen).c_str());
+    OutputDebugString(ss.str().c_str());
 }
 
-BOOL APIENTRY DllMain(HMODULE hModule,
+
+BOOL APIENTRY DllMain(HINSTANCE hModule,
                       DWORD ul_reason_for_call,
                       LPVOID lpReserved
 ) {

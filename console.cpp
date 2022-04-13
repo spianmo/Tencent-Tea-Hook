@@ -8,9 +8,11 @@
 #include <chrono>
 #include <cstdio>
 #include "httplib.h"
+#include "log.h"
 
 using namespace httplib;
 using namespace std;
+using namespace log;
 
 enum PacketProto {
     oi_symmetry_encrypt2, oi_symmetry_decrypt2
@@ -59,10 +61,10 @@ std::vector<std::string> BasePacket::stringSplit(const std::string &str, char de
 
 string BasePacket::format() const {
     stringstream ss;
-    ss << ((this->type == oi_symmetry_encrypt2) ? "oi_symmetry_encrypt2" : "oi_symmetry_decrypt2") << endl;
-    ss << this->key << endl;
-    ss << this->encrypt << endl;
-    ss << this->decrypt << endl;
+    ss << BOLDBLACK << ((this->type == oi_symmetry_encrypt2) ? "oi_symmetry_encrypt2" : "oi_symmetry_decrypt2") << endl;
+    ss << BOLDRED << this->key << endl;
+    ss << BOLDGREEN << this->encrypt << endl;
+    ss << BOLDCYAN << this->decrypt << endl;
     return ss.str();
 }
 

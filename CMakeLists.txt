@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(TeaHookDll)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(VENDOR ${CMAKE_CURRENT_SOURCE_DIR}/vendor)
 
 add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
@@ -21,7 +21,7 @@ add_library(minhook ${MINHOOK_SOURCES})
 
 add_library(TeaHookDll SHARED DllMain.cpp httplib.h Def.cpp Def.h Common.cpp Common.h tea.cpp tea.h)
 
-add_executable(TeaHookServer console.cpp httplib.h)
+add_executable(TeaHookServer console.cpp httplib.h log.h)
 
 add_executable(TeaHookClient client.cpp httplib.h)
 
