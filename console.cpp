@@ -6,13 +6,12 @@
 //
 
 #include <chrono>
-#include <cstdio>
 #include "httplib.h"
 #include "log.h"
 
 using namespace httplib;
 using namespace std;
-using namespace log;
+using namespace logger;
 
 enum PacketProto {
     oi_symmetry_encrypt2, oi_symmetry_decrypt2
@@ -34,6 +33,7 @@ public:
     explicit BasePacket(const string &data);
 
     [[nodiscard]] string format() const;
+    void log() const;
 
 private:
     static std::vector<std::string> stringSplit(const std::string &str, char delim);
@@ -61,11 +61,18 @@ std::vector<std::string> BasePacket::stringSplit(const std::string &str, char de
 
 string BasePacket::format() const {
     stringstream ss;
-    ss << BOLDBLACK << ((this->type == oi_symmetry_encrypt2) ? "oi_symmetry_encrypt2" : "oi_symmetry_decrypt2") << endl;
-    ss << BOLDRED << this->key << endl;
-    ss << BOLDGREEN << this->encrypt << endl;
-    ss << BOLDCYAN << this->decrypt << endl;
+    ss << ((this->type == oi_symmetry_encrypt2) ? "oi_symmetry_encrypt2" : "oi_symmetry_decrypt2") << endl;
+    ss << this->key << endl;
+    ss << this->encrypt << endl;
+    ss << this->decrypt << endl;
     return ss.str();
+}
+
+void BasePacket::log() const {
+    success("MAIN", ((this->type == oi_symmetry_encrypt2) ? "oi_symmetry_encrypt2" : "oi_symmetry_decrypt2"));
+    warn("SIGNAL", this->key);
+    info("MAIN", this->encrypt);
+    info("QUEUE", this->decrypt);
 }
 
 int main(int argc, char *argv[]) {
@@ -73,13 +80,13 @@ int main(int argc, char *argv[]) {
     Server svr;
 
     if (!svr.is_valid()) {
-        printf("server has an error...\n");
+        cout << "server has an error" << endl;
         return -1;
     }
 
     svr.Post("/obtain", [](const Request &req, Response &res) {
         BasePacket packet = BasePacket(req.body);
-        cout << packet.format() << endl;
+        packet.log();
     });
 
     svr.listen("localhost", 8787);

@@ -1,10 +1,11 @@
 #include <ctime>
-#include <dotenv.h>
 #include <iomanip>
 #include <iostream>
 
+#define DEBUG false
+
 // make a namespace called loggy
-namespace log {
+namespace logger {
 #define RESET "\033[0m"
 #define BLACK "\033[30m"              /* Black */
 #define RED "\033[31m"                /* Red */
@@ -23,18 +24,13 @@ namespace log {
 #define BOLDCYAN "\033[1m\033[36m"    /* Bold Cyan */
 #define BOLDWHITE "\033[1m\033[37m"   /* Bold White */
     using namespace std::chrono;
+
 // make a function prod which returns back boolean based on whether the
 // environment variable "ENVIRONMENT" is set to "production" or not
     bool prod() {
-        // if the environment variable "ENVIRONMENT" is set to "production"
-        dotenv::env.load_dotenv();
-        if (dotenv::env["ENVIRONMENT"] == "production") {
-            // return true
-            return true;
-        }
-        // else return false
-        return false;
+        return DEBUG;
     }
+
 // make a function called info which logs to the console at info level, takes in
 // 2 parameters: type and message
     void info(std::string type, std::string message) {
@@ -108,6 +104,7 @@ namespace log {
                       << message << "\"}" << std::endl;
         }
     }
+
 // make a function called error which logs to the console at error level, takes
 // in 2 parameters: type and message
     void error(std::string type, std::string message) {
@@ -181,6 +178,7 @@ namespace log {
                       << message << "\"}" << std::endl;
         }
     }
+
 // make a function called debug which logs to the console at debug level, takes
 // in 2 parameters: type and message
     void debug(std::string type, std::string message) {
@@ -329,6 +327,7 @@ namespace log {
                       << message << "\"}" << std::endl;
         }
     }
+
 // make a function called success which logs to the console at success level, takes in
 // 2 parameters: type and message
     void success(std::string type, std::string message) {
