@@ -66,7 +66,9 @@
 #if BYTE_ORDER == LITTLE_ENDIAN
 
 #if defined(_MSC_VER)
+
 #include <stdlib.h>
+
 #define htobe16(x) _byteswap_ushort(x)
 #define htole16(x) (x)
 #define be16toh(x) _byteswap_ushort(x)
@@ -125,32 +127,29 @@
  * 参数out_buf_len:加密后的数据长度
  * 返回值:加密后的数据，使用qqtea_free来释放
  */
-unsigned char *tea_encode(const unsigned char *key, const unsigned char *buffer, uint32_t len, uint32_t *out_buf_len)
-{
+unsigned char *tea_encode(const unsigned char *key, const unsigned char *buffer, uint32_t len, uint32_t *out_buf_len) {
     const uint32_t fill = (8 - (len + 2)) % 8 + 2;
     const uint32_t ret_buf_len = 1 + fill + len + 7;
-    unsigned char *ret_buffer = (unsigned char *)malloc(ret_buf_len);
-    if (!ret_buffer)
-    {
+    unsigned char *ret_buffer = (unsigned char *) malloc(ret_buf_len);
+    if (!ret_buffer) {
         (*out_buf_len) = 0;
         return NULL;
     }
-    ret_buffer[0] = ((uint8_t)(fill - 2)) | 0xF8;
+    ret_buffer[0] = ((uint8_t) (fill - 2)) | 0xF8;
     /* memset(ret_buffer+1,0xAD,fill); */
     memcpy(ret_buffer + fill + 1, buffer, len);
     memset(ret_buffer + 1 + fill + len, '\0', 7);
-    uint32_t t0 = be32toh(*((uint32_t *)&key[0]));
-    uint32_t t1 = be32toh(*((uint32_t *)&key[4]));
-    uint32_t t2 = be32toh(*((uint32_t *)&key[8]));
-    uint32_t t3 = be32toh(*((uint32_t *)&key[12]));
+    uint32_t t0 = be32toh(*((uint32_t *) &key[0]));
+    uint32_t t1 = be32toh(*((uint32_t *) &key[4]));
+    uint32_t t2 = be32toh(*((uint32_t *) &key[8]));
+    uint32_t t3 = be32toh(*((uint32_t *) &key[12]));
     uint64_t iv1 = 0, iv2 = 0, holder;
-    for (uint32_t i = 0; i < ret_buf_len; i += 8)
-    {
-        uint64_t block = be64toh(*((uint64_t *)&ret_buffer[i]));
+    for (uint32_t i = 0; i < ret_buf_len; i += 8) {
+        uint64_t block = be64toh(*((uint64_t *) &ret_buffer[i]));
         holder = block ^ iv1;
         {
-            uint32_t v0 = (uint32_t)(holder >> 32);
-            uint32_t v1 = (uint32_t)(holder);
+            uint32_t v0 = (uint32_t) (holder >> 32);
+            uint32_t v1 = (uint32_t) (holder);
             v0 += (v1 + 0x9e3779b9) ^ ((v1 << 4) + t0) ^ ((v1 >> 5) + t1);
             v1 += (v0 + 0x9e3779b9) ^ ((v0 << 4) + t2) ^ ((v0 >> 5) + t3);
             v0 += (v1 + 0x3c6ef372) ^ ((v1 << 4) + t0) ^ ((v1 >> 5) + t1);
@@ -183,11 +182,11 @@ unsigned char *tea_encode(const unsigned char *key, const unsigned char *buffer,
             v1 += (v0 + 0x454021d7) ^ ((v0 << 4) + t2) ^ ((v0 >> 5) + t3);
             v0 += (v1 + 0xe3779b90) ^ ((v1 << 4) + t0) ^ ((v1 >> 5) + t1);
             v1 += (v0 + 0xe3779b90) ^ ((v0 << 4) + t2) ^ ((v0 >> 5) + t3);
-            iv1 = ((uint64_t)(v0) << 32 | (uint64_t)(v1));
+            iv1 = ((uint64_t) (v0) << 32 | (uint64_t) (v1));
         }
         iv1 = iv1 ^ iv2;
         iv2 = holder;
-        (*((uint64_t *)(&ret_buffer[i]))) = htobe64(iv1);
+        (*((uint64_t *) (&ret_buffer[i]))) = htobe64(iv1);
     }
     (*out_buf_len) = ret_buf_len;
     return ret_buffer;
@@ -199,31 +198,27 @@ unsigned char *tea_encode(const unsigned char *key, const unsigned char *buffer,
  * 参数out_buf_len:解密后的数据长度
  * 返回值:解密后的数据，使用qqtea_free来释放
  */
-unsigned char *tea_decode(const unsigned char *key, const unsigned char *buffer, uint32_t len, uint32_t *out_buf_len)
-{
-    if (len < 16 || len % 8 != 0)
-    {
+unsigned char *tea_decode(const unsigned char *key, const unsigned char *buffer, uint32_t len, uint32_t *out_buf_len) {
+    if (len < 16 || len % 8 != 0) {
         (*out_buf_len) = 0;
         return NULL;
     }
-    unsigned char *ret_buffer = (unsigned char *)malloc(len);
-    if (!ret_buffer)
-    {
+    unsigned char *ret_buffer = (unsigned char *) malloc(len);
+    if (!ret_buffer) {
         (*out_buf_len) = 0;
         return NULL;
     }
-    uint32_t t0 = be32toh(*((uint32_t *)&key[0]));
-    uint32_t t1 = be32toh(*((uint32_t *)&key[4]));
-    uint32_t t2 = be32toh(*((uint32_t *)&key[8]));
-    uint32_t t3 = be32toh(*((uint32_t *)&key[12]));
+    uint32_t t0 = be32toh(*((uint32_t *) &key[0]));
+    uint32_t t1 = be32toh(*((uint32_t *) &key[4]));
+    uint32_t t2 = be32toh(*((uint32_t *) &key[8]));
+    uint32_t t3 = be32toh(*((uint32_t *) &key[12]));
     uint64_t iv1 = 0, iv2 = 0, holder = 0, tmp = 0;
-    for (uint32_t i = 0; i < len; i += 8)
-    {
-        uint64_t block = be64toh(*((uint64_t *)&buffer[i]));
+    for (uint32_t i = 0; i < len; i += 8) {
+        uint64_t block = be64toh(*((uint64_t *) &buffer[i]));
         {
             uint64_t n = block ^ iv2;
-            uint32_t v0 = (uint32_t)(n >> 32);
-            uint32_t v1 = (uint32_t)(n);
+            uint32_t v0 = (uint32_t) (n >> 32);
+            uint32_t v1 = (uint32_t) (n);
             v1 -= (v0 + 0xe3779b90) ^ ((v0 << 4) + t2) ^ ((v0 >> 5) + t3);
             v0 -= (v1 + 0xe3779b90) ^ ((v1 << 4) + t0) ^ ((v1 >> 5) + t1);
             v1 -= (v0 + 0x454021d7) ^ ((v0 << 4) + t2) ^ ((v0 >> 5) + t3);
@@ -256,17 +251,16 @@ unsigned char *tea_decode(const unsigned char *key, const unsigned char *buffer,
             v0 -= (v1 + 0x3c6ef372) ^ ((v1 << 4) + t0) ^ ((v1 >> 5) + t1);
             v1 -= (v0 + 0x9e3779b9) ^ ((v0 << 4) + t2) ^ ((v0 >> 5) + t3);
             v0 -= (v1 + 0x9e3779b9) ^ ((v1 << 4) + t0) ^ ((v1 >> 5) + t1);
-            tmp = ((uint64_t)(v0) << 32 | (uint64_t)(v1));
+            tmp = ((uint64_t) (v0) << 32 | (uint64_t) (v1));
         }
         iv2 = tmp;
         holder = tmp ^ iv1;
         iv1 = block;
-        (*((uint64_t *)(&ret_buffer[i]))) = htobe64(holder);
+        (*((uint64_t *) (&ret_buffer[i]))) = htobe64(holder);
     }
     (*out_buf_len) = len - ((ret_buffer[0] & 7) + 3) - 7;
-    unsigned char *ret_buffer2 = (unsigned char *)malloc(*out_buf_len);
-    if (!ret_buffer2)
-    {
+    unsigned char *ret_buffer2 = (unsigned char *) malloc(*out_buf_len);
+    if (!ret_buffer2) {
         free(ret_buffer);
         (*out_buf_len) = 0;
         return NULL;
@@ -279,7 +273,6 @@ unsigned char *tea_decode(const unsigned char *key, const unsigned char *buffer,
 /*
  * 描述:释放加解密函数返回指针指向的内存(空指针安全)
  */
-void tea_free(unsigned char *buffer)
-{
+void tea_free(unsigned char *buffer) {
     free(buffer);
 }
