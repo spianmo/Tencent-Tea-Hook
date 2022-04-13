@@ -2,7 +2,7 @@
 #include <iomanip>
 #include <iostream>
 
-#define DEBUG false
+#define DEBUG TRUE
 
 // make a namespace called loggy
 namespace logger {
@@ -28,7 +28,7 @@ namespace logger {
 // make a function prod which returns back boolean based on whether the
 // environment variable "ENVIRONMENT" is set to "production" or not
     bool prod() {
-        return DEBUG;
+        return !DEBUG;
     }
 
 // make a function called info which logs to the console at info level, takes in
