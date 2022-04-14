@@ -88,7 +88,7 @@ namespace logger {
         auto t = std::time(nullptr);
         auto tm = *std::localtime(&t);
         std::ostringstream oss;
-        oss << std::put_time(&tm, "%d-%m-%Y %S:%M:%H");
+        oss << std::put_time(&tm, "%Y-%m-%d %H:%M:%S");
         auto timestamp =
                 duration_cast<milliseconds>(system_clock::now().time_since_epoch())
                         .count();
@@ -162,7 +162,7 @@ namespace logger {
         auto t = std::time(nullptr);
         auto tm = *std::localtime(&t);
         std::ostringstream oss;
-        oss << std::put_time(&tm, "%d-%m-%Y %S:%M:%H");
+        oss << std::put_time(&tm, "%Y-%m-%d %H:%M:%S");
         auto timestamp =
                 duration_cast<milliseconds>(system_clock::now().time_since_epoch())
                         .count();
@@ -236,7 +236,7 @@ namespace logger {
         auto t = std::time(nullptr);
         auto tm = *std::localtime(&t);
         std::ostringstream oss;
-        oss << std::put_time(&tm, "%d-%m-%Y %S:%M:%H");
+        oss << std::put_time(&tm, "%Y-%m-%d %H:%M:%S");
         auto timestamp =
                 duration_cast<milliseconds>(system_clock::now().time_since_epoch())
                         .count();
@@ -311,7 +311,7 @@ namespace logger {
         auto t = std::time(nullptr);
         auto tm = *std::localtime(&t);
         std::ostringstream oss;
-        oss << std::put_time(&tm, "%d-%m-%Y %S:%M:%H");
+        oss << std::put_time(&tm, "%Y-%m-%d %H:%M:%S");
         auto timestamp =
                 duration_cast<milliseconds>(system_clock::now().time_since_epoch())
                         .count();
@@ -386,7 +386,7 @@ namespace logger {
         auto t = std::time(nullptr);
         auto tm = *std::localtime(&t);
         std::ostringstream oss;
-        oss << std::put_time(&tm, "%d-%m-%Y %S:%M:%H");
+        oss << std::put_time(&tm, "%Y-%m-%d %H:%M:%S");
         auto timestamp =
                 duration_cast<milliseconds>(system_clock::now().time_since_epoch())
                         .count();

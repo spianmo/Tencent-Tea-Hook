@@ -8,6 +8,7 @@
 #include <chrono>
 #include "httplib.h"
 #include "log.h"
+#include "ban.h"
 
 using namespace httplib;
 using namespace std;
@@ -77,6 +78,18 @@ void BasePacket::log() const {
 
 int main(int argc, char *argv[]) {
     system("chcp 65001");
+    char banner[256] = {'\0'};
+    BAN(argv[0], banner, 256);
+    cout << "\n"
+            "_____._._______.______       .___.__  ._______  ._______  .____/\\      .________._______.______  .___     ._______.______  \n"
+            "\\__ _:|: .____/:      \\      :   |  \\ : .___  \\ : .___  \\ :   /  \\     |    ___/: .____/: __   \\ |   |___ : .____/: __   \\ \n"
+            "  |  :|| : _/\\ |   .   |     |   :   || :   |  || :   |  ||.  ___/     |___    \\| : _/\\ |  \\____||   |   || : _/\\ |  \\____|\n"
+            "  |   ||   /  \\|   :   |     |   .   ||     :  ||     :  ||     \\      |       /|   /  \\|   :  \\ |   :   ||   /  \\|   :  \\ \n"
+            "  |   ||_.: __/|___|   |     |___|   | \\_. ___/  \\_. ___/ |      \\     |__:___/ |_.: __/|   |___\\ \\      ||_.: __/|   |___\\\n"
+            "  |___|   :/       |___|         |___|   :/        :/     |___\\  /        :        :/   |___|      \\____/    :/   |___|    \n"
+            "                                         :         :           \\/                                                          \n"
+            "  Version 0.01  © 2022 Finger. All Rights Reserved.\n";
+    cout << "  " << banner << endl << endl << endl;
     Server svr;
 
     if (!svr.is_valid()) {
