@@ -24,7 +24,7 @@ add_library(minhook ${MINHOOK_SOURCES})
 
 add_library(TeaHookDll SHARED DllMain.cpp httplib.h Def.cpp Def.h Common.cpp Common.h tea.cpp tea.h)
 
-add_executable(TeaHookServer console.cpp httplib.h log.h ban.cpp ban.h)
+add_executable(TeaHookServer console.cpp httplib.h log.h ban.cpp ban.h ProtoParser.cpp ProtoParser.h)
 
 add_executable(TeaHookClient client.cpp)
 

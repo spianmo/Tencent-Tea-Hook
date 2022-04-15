@@ -9,6 +9,7 @@
 #include "httplib.h"
 #include "log.h"
 #include "ban.h"
+#include "ProtoParser.h"
 
 using namespace httplib;
 using namespace std;
@@ -99,7 +100,8 @@ int main(int argc, char *argv[]) {
 
     svr.Post("/obtain", [](const Request &req, Response &res) {
         BasePacket packet = BasePacket(req.body);
-        packet.log();
+        //packet.log();
+        parsePacket(packet.type, packet.decrypt);
     });
 
     svr.listen("localhost", 8787);
