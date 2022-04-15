@@ -73,20 +73,28 @@ void parsePacket(int type, const string& hexStr) {
         unsigned long long senderUin = hexToInt(substring(hexStr.c_str(), 0, 8));
         unsigned long long receiverUin = hexToInt(substring(hexStr.c_str(), 8, 16));
         string msgContent = substring(hexStr.c_str(), 232, hexStr.length());
+        string msgTime = formatTimestamp(hexToInt(substring(hexStr.c_str(), 110, 118)));
         cout << "发送消息oi_symmetry_encrypt2" << endl;
         cout << "hexStr: " << hexStr << endl;
         cout << "senderUin: " << senderUin << endl;
         cout << "receiverUin: " << receiverUin << endl;
         cout << "msgContentRaw: " << msgContent.c_str() << endl;
         cout << "msgContent: " << hex2utf8(msgContent.c_str()) << endl;
+        cout << "msgTime: " << msgTime << endl;
+        cout << "msgTime: " << msgTime << endl;
     }
-    /*else if (type == 1) {
+    else if (type == 1) {
         stringstream ss;
         unsigned long long senderUin = hexToInt(substring(hexStr.c_str(), 0, 8));
         unsigned long long receiverUin = hexToInt(substring(hexStr.c_str(), 8, 16));
+        string msgContent = substring(hexStr.c_str(), 232, hexStr.length());
+        string msgTime = formatTimestamp(hexToInt(substring(hexStr.c_str(), 55, 59)));
         cout << "接收消息oi_symmetry_decrypt2" << endl;
         cout << "hexStr: " << hexStr << endl;
         cout << "senderUin: " << senderUin << endl;
         cout << "receiverUin: " << receiverUin << endl;
-    }*/
+        cout << "msgContentRaw: " << msgContent.c_str() << endl;
+        cout << "msgContent: " << hex2utf8(msgContent.c_str()) << endl;
+        cout << "msgTime: " << msgTime << endl;
+    }
 }
