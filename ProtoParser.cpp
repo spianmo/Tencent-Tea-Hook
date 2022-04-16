@@ -32,17 +32,6 @@ char *substring(const char *str, int start, int end) {
     return result;
 }
 
-//substring
-char *substring(const char *str, int start) {
-    int len = strlen(str) - start;
-    char *result = new char[len + 1];
-    for (int i = 0; i < len; i++) {
-        result[i] = str[start + i];
-    }
-    result[len] = '\0';
-    return result;
-}
-
 //hex2utf8
 char *hex2utf8(const char *hex) {
     int len = strlen(hex);

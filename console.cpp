@@ -101,7 +101,11 @@ int main(int argc, char *argv[]) {
     svr.Post("/obtain", [](const Request &req, Response &res) {
         BasePacket packet = BasePacket(req.body);
         //packet.log();
-        parsePacket(packet.type, packet.decrypt);
+        //parsePacket(packet.type, packet.decrypt);
+    });
+
+    svr.Post("/raw", [](const Request &req, Response &res) {
+        cout << req.body << endl;
     });
 
     svr.listen("localhost", 8787);

@@ -5,6 +5,7 @@
 #ifndef TEAHOOKDLL_PROTOPARSER_H
 #define TEAHOOKDLL_PROTOPARSER_H
 #include <string>
+#include <cstring>
 #include <sstream>
 #include <iostream>
 
