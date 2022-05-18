@@ -52,15 +52,8 @@ int __stdcall my_WSASendTo(SOCKET s, LPWSABUF lpBuffers, DWORD dwBufferCount, LP
     stringstream ss;
     ss << "=====================" << endl;
     ss << "WSASendTo" << endl;
-    ss << "s:" << s << endl;
+    ss << "FLAGS:" << binaryToHex(lpBuffers->buf).substr(10, 2) << endl;
     ss << "lpBuffers:" << binaryToHex(lpBuffers->buf) << endl;
-    ss << "dwBufferCount:" << dwBufferCount << endl;
-    ss << "lpNumberOfBytesSent:" << lpNumberOfBytesSent << endl;
-    ss << "dwFlags:" << dwFlags << endl;
-    ss << "lpTo:" << lpTo << endl;
-    ss << "iToLen:" << iToLen << endl;
-    ss << "lpOverlapped:" << lpOverlapped << endl;
-    ss << "lpCompletionRoutine:" << lpCompletionRoutine << endl;
     ss << "=====================" << endl;
     cli.Post("/raw", ss.str(), "text/plain");
 
@@ -72,15 +65,8 @@ int __stdcall my_WSARecvFrom(SOCKET s, LPWSABUF lpBuffers, DWORD dwBufferCount, 
     stringstream ss;
     ss << "=====================" << endl;
     ss << "WSARecvFrom" << endl;
-    ss << "s:" << s << endl;
+    ss << "FLAGS:" << binaryToHex(lpBuffers->buf).substr(10, 2) << endl;
     ss << "lpBuffers:" << binaryToHex(lpBuffers->buf) << endl;
-    ss << "dwBufferCount:" << dwBufferCount << endl;
-    ss << "lpNumberOfBytesRecvd:" << lpNumberOfBytesRecvd << endl;
-    ss << "lpFlags:" << lpFlags << endl;
-    ss << "lpFrom:" << lpFrom << endl;
-    ss << "lpFromlen:" << lpFromlen << endl;
-    ss << "lpOverlapped:" << lpOverlapped << endl;
-    ss << "lpCompletionRoutine:" << lpCompletionRoutine << endl;
     ss << "=====================" << endl;
     cli.Post("/raw", ss.str(), "text/plain");
 
@@ -98,14 +84,14 @@ BOOL APIENTRY DllMain(HINSTANCE hModule,
             OutputDebugString("Hook Init");
             MH_Initialize();
             InitHookPtr();
-            if (/*SetHook((LPVOID) oi_symmetry_encrypt2_Address, (LPVOID) &my_oi_symmetry_encrypt2,
+            if (SetHook((LPVOID) oi_symmetry_encrypt2_Address, (LPVOID) &my_oi_symmetry_encrypt2,
                         &oi_symmetry_encrypt2) &&
                 SetHook((LPVOID) oi_symmetry_decrypt2_Address, (LPVOID) &my_oi_symmetry_decrypt2,
-                        &oi_symmetry_decrypt2) &&*/
+                        &oi_symmetry_decrypt2) /*&&
                 SetHook((LPVOID) WSASendTo_Address, (LPVOID) &my_WSASendTo,
                         &_WSASendTo) &&
                 SetHook((LPVOID) WSARecvFrom_Address, (LPVOID) &my_WSARecvFrom,
-                        &_WSARecvFrom)) {
+                        &_WSARecvFrom)*/) {
                 OutputDebugString("SetHook OK!");
             }
         }
