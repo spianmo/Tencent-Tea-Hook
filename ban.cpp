@@ -1,8 +1,6 @@
 #ifdef _WIN32
-
 #include <tchar.h>
 #include <Windows.h>
-
 #else
 #include <sys/sysinfo.h>
 #include <unistd.h>
@@ -32,26 +30,23 @@
 #define OS "Other"
 #endif
 
-struct mem_s {
+struct mem_s
+{
     uint64_t available, total;
 };
 
 static const char *mem_units[] = {"B", "K", "M", "G", "T"};
 
 static void get_hostname(char *, size_t);
-
 static void get_cores(int32_t *);
-
 static void get_mem(struct mem_s *);
-
 static void get_time(char *, size_t);
-
 static void humanize_mem(uint64_t, char *, size_t);
-
 static char *render(const char *, const char *, const char *);
 
 void
-bant(const char *name, const char *tpl, char *banner, size_t length) {
+bant(const char *name, const char *tpl, char *banner, size_t length)
+{
     assert(name != NULL);
     assert(tpl != NULL);
     assert(banner != NULL);
@@ -106,39 +101,42 @@ bant(const char *name, const char *tpl, char *banner, size_t length) {
 }
 
 static void
-get_hostname(char *hostname, size_t length) {
+get_hostname(char *hostname, size_t length)
+{
     assert(hostname != NULL);
 
 #ifdef WIN32
     DWORD size = length;
-    GetComputerName(hostname, &size);
+	GetComputerName(hostname, &size);
 #else
     gethostname(hostname, length);
 #endif
 }
 
 static void
-get_cores(int32_t *cores) {
+get_cores(int32_t *cores)
+{
     assert(cores != NULL);
 
 #ifdef WIN32
     SYSTEM_INFO info = {.dwNumberOfProcessors=0};
-    GetSystemInfo(&info);
-    *cores = info.dwNumberOfProcessors;
+	GetSystemInfo(&info);
+	*cores = info.dwNumberOfProcessors;
 #else
     *cores = sysconf(_SC_NPROCESSORS_ONLN);
 #endif
 }
 
 static void
-get_mem(struct mem_s *mem) {
+get_mem(struct mem_s *mem)
+{
     assert(mem != NULL);
 
 #ifdef WIN32
     MEMORYSTATUS status = {.dwTotalPhys=0, .dwAvailPhys=0};
-    GlobalMemoryStatus(&status);
-    mem->available = status.dwAvailPhys;
-    mem->total = status.dwTotalPhys;
+	GlobalMemoryStatus(&status);
+	mem->available = status.dwAvailPhys;
+	mem->total = status.dwTotalPhys;
 #else
     struct sysinfo info;
     sysinfo(&info);
@@ -148,7 +146,8 @@ get_mem(struct mem_s *mem) {
 }
 
 static void
-get_time(char *now, size_t length) {
+get_time(char *now, size_t length)
+{
     assert(now != NULL);
 
     time_t rawtime;
@@ -161,14 +160,17 @@ get_time(char *now, size_t length) {
 }
 
 static void
-humanize_mem(uint64_t bytes, char *mem, size_t length) {
+humanize_mem(uint64_t bytes, char *mem, size_t length)
+{
     assert(mem != NULL);
 
     int32_t i = 0;
     double d = bytes;
 
-    if (d > 1024.0) {
-        for (; bytes / 1024 > 0 && i < 4; ++i, bytes /= 1024) {
+    if (d > 1024.0)
+    {
+        for (; bytes / 1024 > 0 && i < 4; ++i, bytes /= 1024)
+        {
             d = bytes / 1024.0;
         }
     }
@@ -177,29 +179,36 @@ humanize_mem(uint64_t bytes, char *mem, size_t length) {
 }
 
 static char *
-render(const char *tpl, const char *p, const char *v) {
+render(const char *tpl, const char *p, const char *v)
+{
     assert(tpl != NULL);
 
     int32_t idx = 0, cnt = 0;
     size_t plen = strlen(p);
     size_t vlen = strlen(v);
 
-    for (; tpl[idx]; ++idx) {
-        if (strstr(tpl + idx, p) == tpl + idx) {
+    for (; tpl[idx]; ++idx)
+    {
+        if (strstr(tpl + idx, p) == tpl + idx)
+        {
             ++cnt;
             idx += plen - 1;
         }
     }
 
-    char *result = (char *) calloc(idx + cnt * (vlen - plen) + 1, sizeof(char));
+    char *result = (char*)calloc(idx + cnt * (vlen - plen) + 1, sizeof(char));
 
     idx = 0;
-    while (*tpl) {
-        if (strstr(tpl, p) == tpl) {
+    while (*tpl)
+    {
+        if (strstr(tpl, p) == tpl)
+        {
             strcpy(result + idx, v);
             idx += vlen;
             tpl += plen;
-        } else {
+        }
+        else
+        {
             result[idx++] = *tpl++;
         }
     }
