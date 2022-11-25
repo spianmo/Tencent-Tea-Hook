@@ -25,12 +25,14 @@ typedef int (__cdecl *oi_symmetry_decrypt2_t)(const BYTE *pInBuf, int nInBufLen,
                                               int *pOutBufLen);
 
 typedef int (__stdcall *WSASendTo_t)(SOCKET s, LPWSABUF lpBuffers, DWORD dwBufferCount, LPDWORD lpNumberOfBytesSent,
-                                     DWORD dwFlags, const struct sockaddr *lpTo, int iToLen, LPWSAOVERLAPPED lpOverlapped,
+                                     DWORD dwFlags, const struct sockaddr *lpTo, int iToLen,
+                                     LPWSAOVERLAPPED lpOverlapped,
                                      LPWSAOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine);
 
 typedef int (__stdcall *WSARecvFrom_t)(SOCKET s, LPWSABUF lpBuffers, DWORD dwBufferCount, LPDWORD lpNumberOfBytesRecvd,
                                        LPDWORD lpFlags, struct sockaddr *lpFrom, LPINT lpFromlen,
-                                       LPWSAOVERLAPPED lpOverlapped, LPWSAOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine);
+                                       LPWSAOVERLAPPED lpOverlapped,
+                                       LPWSAOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine);
 
 extern oi_symmetry_encrypt2_t oi_symmetry_encrypt2;
 extern oi_symmetry_decrypt2_t oi_symmetry_decrypt2;
