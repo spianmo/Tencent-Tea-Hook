@@ -98,10 +98,10 @@ BOOL APIENTRY DllMain(HINSTANCE hModule,
             OutputDebugString("Hook Init");
             MH_Initialize();
             InitHookPtr();
-            if (/*SetHook((LPVOID) oi_symmetry_encrypt2_Address, (LPVOID) &my_oi_symmetry_encrypt2,
+            if (SetHook((LPVOID) oi_symmetry_encrypt2_Address, (LPVOID) &my_oi_symmetry_encrypt2,
                         &oi_symmetry_encrypt2) &&
                 SetHook((LPVOID) oi_symmetry_decrypt2_Address, (LPVOID) &my_oi_symmetry_decrypt2,
-                        &oi_symmetry_decrypt2) &&*/
+                        &oi_symmetry_decrypt2) &&
                 SetHook((LPVOID) WSASendTo_Address, (LPVOID) &my_WSASendTo,
                         &_WSASendTo) &&
                 SetHook((LPVOID) WSARecvFrom_Address, (LPVOID) &my_WSARecvFrom,
